@@ -6,6 +6,9 @@ const express = require("express");
 const booky = express();
 
 const database = require("./database");
+//configuration
+
+booky.use(express.json());
 
 
 /* 
@@ -19,6 +22,7 @@ Methods        GET
 booky.get("/", (req, res) => {
 
     //changing this line
+    // console.log(database.books);
 
     return res.json({ books: database.books });
 });
@@ -114,4 +118,155 @@ booky.get("/author/book/:isbn",(req,res)=>{
 })
 
 
+
+//****  POST  */
+/* 
+Route      /book/add
+Description  add new book 
+Access        PUBLIC
+Parameters    NONE
+Methods        POST
+*/
+
+
+
+booky.post("/book/add",(req,res)=>{
+
+
+    const {newBook}=req.body;
+
+    database.books.push(newBook);
+    return res.json({books: database.books})
+
+          
+
+})
+
+
+
+/* 
+Route      /author/add
+Description  add new author 
+Access        PUBLIC
+Parameters    NONE
+Methods        POST
+*/
+
+
+
+booky.post("/author/add",(req,res)=>{
+
+
+    const {newAuthor} =req.body;
+
+    database.author.push(newAuthor);
+    return res.json({author: database.author})
+
+          
+
+})
+
+//****PUT */
+/* 
+Route        /book/update/title
+Description   update book title
+Access        PUBLIC
+Parameters    ISBN
+Methods        PUT
+*/
+
+booky.put("/book/update/title/:isbn",(req,res)=>{
+
+        
+        //for each  -->updating direct into databse.js
+
+        //map  --> create new array
+
+        database.books.forEach((book)=>{
+            
+
+            if(book.isbn === req.params.isbn){
+
+                 book.title=req.body.newBookTitle;
+                 return;
+            }
+        });
+
+        return res.json({books: database.books});
+
+})
+
+
+
+//****PUT */
+/* 
+Route        /book/update/author
+Description   update book author
+Access        PUBLIC
+Parameters    ISBN
+Methods        PUT
+*/
+
+booky.put("/book/update/author/:isbn/:authorId",(req,res)=>{
+
+   //update book database
+   database.books.forEach((book)=>{
+       if(book.ISBN === req.params.isbn)
+       {
+           return book.author.push(parseInt(req.params.authorId))
+       }
+   });
+
+   //update author database
+
+   database.author.forEach((author)=>{
+
+    if(author.id ===parseInt(req.params.authorId))
+    {
+        return author.books.push(req.params.isbn);
+    }
+   });
+
+   return res.json({books:database.books,author:database.author})
+
+})
+
+
+//****PUT */
+/* 
+Route        /publication/update/book/
+Description   update/add new book to publication
+Access        PUBLIC
+Parameters    ISBN
+Methods        PUT
+*/
+
+booky.put("/publication/update/book/:isbn",(req,res)=>{
+
+    database.publications.forEach((publication)=>{
+        if(publication.id==req.body.pubId)
+        {
+            return publication.books.push(req.params.isbn);
+        }
+    });
+
+    //update book database
+
+    database.books.forEach((book)=>{
+      
+        if(book.ISBN === req.params.isbn)
+        {
+            console.log(req.body.pubId);
+            return book.publication=req.body.pubId;
+        }
+    });
+
+    return res.json({books: database.books,publications: database.publications});
+
+
+})
+
+
 booky.listen(3000, () => console.log("server is running"));
+
+//HTTP Client --> helper who helps you to make http request

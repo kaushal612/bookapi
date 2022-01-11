@@ -6,7 +6,19 @@ const books = [
         language:'en',
         numPage:250,
         author: [1,2],
-        publication:[1],
+        publication:1,
+        catagory:["tech","programming","education"]
+
+    },
+
+    {
+        ISBN:"12345",
+        title:"Getting started with mern",
+        pubDate:"2022-01-07",
+        language:'en',
+        numPage:250,
+        author: [1,2],
+        publication: 3,
         catagory:["tech","programming","education"]
 
     },
@@ -23,15 +35,22 @@ const author = [
         name:"Elon musk",
         books: ["12345Book12"]
     },
-]
+];
 
 
 
-const publication = [
+const publications = [
     {
         id:1,
         name:"writex",
         books:["1234Book"],
-    }];
+    },
 
-    module.exports ={books,author,publication}
+    {
+        id:2,
+        name:"bookhall",
+        books:[],
+    }
+];
+
+    module.exports ={books,author,publications}
