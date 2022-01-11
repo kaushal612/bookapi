@@ -267,6 +267,106 @@ booky.put("/publication/update/book/:isbn",(req,res)=>{
 })
 
 
+//*** DELETE */
+/* 
+Route        /book/delete
+Description   deletea book
+Access        PUBLIC
+Parameters    ISBN
+Methods        DELETE
+*/
+
+
+booky.delete("/book/delete/:isbn",(req,res)=>{
+
+    // database.books.forEach((book,index)=>{
+    //     if(book.ISBN === req.params.isbn)
+    //     {
+    //         database.books.splice(index,1);
+    //     }
+    // });
+
+    database.books = database.books.filter((book)=>{
+        return book.ISBN !== req.params.isbn;
+    });
+
+    return res.json({books: database.books});
+
+})
+
+
+//*** DELETE */
+/* 
+Route        /book/delete/author
+Description   delete author from book
+Access        PUBLIC
+Parameters    ISBN,author id
+Methods        DELETE
+*/
+booky.delete("/book/delete/author/:isbn/:authorId",(req,res)=>{
+
+    //update book database
+  database.books.forEach((book)=>{
+      if(book.ISBN === req.params.isbn)
+      {
+            book.author = book.author.filter((author)=>{
+               return author !== parseInt(req.params.authorId);
+            });
+            return;
+      }
+  });
+
+  //update author database
+  database.author.forEach((author)=>{
+      if(author.id === parseInt(req.params.authorId))
+      {
+          author.books = author.books.filter((book)=>{
+              return book !== req.params.isbn;
+          });
+            return;
+      }
+  });
+
+    return res.json({message:"happy  ",books: database.books,author: database.author});
+
+})
+
+
+
+//*** DELETE */
+/* 
+Route        /publication/delete/book
+Description   delete book from publication
+Access        PUBLIC
+Parameters    ISBN,publication id
+Methods        DELETE
+*/
+
+
+booky.delete("/publication/delete/book/:isbn/:pubId",(req,res)=>{
+
+    database.publications.forEach((publication)=>{
+        if(publication.id === parseInt(req.params.pubId))
+        {
+            publication.books = publication.books.filter((book)=>{
+                return book !== req.params.isbn;
+            });
+            return;
+        }
+    });
+
+    //update book database
+    database.books.forEach((book)=>{
+        if(book.ISBN === req.params.isbn)
+        {
+            book.publication = 0 ;  //no publication available
+            return;
+        }
+    });
+
+    return res.json({books: database.books,publications: database.publications});
+
+}   )
 booky.listen(3000, () => console.log("server is running"));
 
 //HTTP Client --> helper who helps you to make http request

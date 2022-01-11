@@ -28,12 +28,12 @@ const author = [
     {
         id:1,
         name:"kaushal",
-        books: ["12345Book"]
+        books: ["12345Book","12345"]
     },
     {
         id:2,
         name:"Elon musk",
-        books: ["12345Book12"]
+        books: ["12345Book12","12345"]
     },
 ];
 
@@ -43,7 +43,7 @@ const publications = [
     {
         id:1,
         name:"writex",
-        books:["1234Book"],
+        books:["1234Book","12345","12345Book"],
     },
 
     {
