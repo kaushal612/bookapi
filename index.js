@@ -1,7 +1,24 @@
-// import { database } from "./database";
+require("dotenv").config();
 
 
+
+// frameworks
 const express = require("express");
+const mongoose = require("mongoose");
+
+//establishing connection to database
+mongoose.connect(process.env.MONGO_URL, {
+
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  
+}).then(() => {
+    console.log("connected to database");
+}).catch((err) => {
+    console.log("error connecting to database", err);
+});
+
+
 
 const booky = express();
 
@@ -9,6 +26,7 @@ const database = require("./database");
 //configuration
 
 booky.use(express.json());
+
 
 
 /* 
@@ -370,3 +388,20 @@ booky.delete("/publication/delete/book/:isbn/:pubId",(req,res)=>{
 booky.listen(3000, () => console.log("server is running"));
 
 //HTTP Client --> helper who helps you to make http request
+
+//Talkt to monagoDB in in which mongodb understands => mongoose
+//talk to us in the way we understand => javascript
+
+//mongoose is a library that helps us to talk to mongodb
+
+
+//why schema?
+
+// mongodb is schemaless
+// mongoose helps you with validation,relationships with other data
+
+
+//mongoos model
+//model -> document model of mongodb
+
+//schema --> Model -> use them
