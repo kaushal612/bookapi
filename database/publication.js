@@ -8,5 +8,5 @@ const PublicationSchema = new mongoose.Schema({
 });
 
 //publisher model
-const PublicationModel = mongoose.model("Publication", PublicationSchema);
+const PublicationModel = mongoose.model("publications", PublicationSchema);
 module.exports = PublicationModel;
