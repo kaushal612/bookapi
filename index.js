@@ -6,6 +6,11 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 
+//Models
+const BookModel = require("./database/book");
+const AuthorModel = require("./database/author");
+const PublicationModel = require("./database/publication");
+
 //establishing connection to database
 mongoose.connect(process.env.MONGO_URL, {
 
